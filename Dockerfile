@@ -1,13 +1,17 @@
-FROM --platform=amd64 golang:latest
+FROM golang:latest
 
 WORKDIR /app
 
-COPY . .
+COPY .go mod ./
 
 RUN go mod download
 
-RUN go build ./src/main.go
+COPY ./ ./
 
-EXPOSE 8000
+RUN go build main.go
 
-CMD ["./main" ]
+EXPOSE 8080
+
+CMD [ "./main" ]
+
+# image build시 docker build -t TAG -f build/Dockerfile . 로 빌드해야 부모요소도 컨테이너로 복사가 가능하다.
