@@ -14,3 +14,8 @@ func Sub(a, b int) int {
 	c := a * b
 	return c
 }
+
+func AA(a, b int) int {
+	c := a * b
+	return c
+}
