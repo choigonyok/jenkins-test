@@ -1,44 +1,37 @@
-pipeline { 
-    environment { 
-        repository = "achoistic98/testbackend"  //docker hub id와 repository 이름
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // jenkins에 등록해 놓은 docker hub credentials 이름
-        dockerImage = '' 
+pipeline {
+  environment {
+    imagename = "achoistic98/testbackend"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git([url: 'https://github.com/choigonyok/jenkins-test.git', branch: 'main', credentialsId: 'github-id/pw'])
+
+      }
     }
-
-    agent any 
-    stages { 
-        stage('checkout') {
-            steps { 
-                checkout scm
-            }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
         }
-
-        stage('Build image') { 
-            steps { 
-                script { 
-                    app = docker.build("$repository:$BUILD_NUMBER")
-                }
-            } 
-        }
-
-        stage('Login'){
-            steps{
-                sh "echo '$DOCKERHUB_CREDENTIALS_PSW' | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin" // docker hub 로그인
-            }
-        }
-
-        stage('Deploy our image') { 
-            steps { 
-                script {
-                    sh "docker push $repository:$BUILD_NUMBER" //docker push
-                } 
-            }
-        } 
-        stage('Cleaning up') { 
-            steps { 
-                sh "docker rmi $repository:$BUILD_NUMBER" // docker image 제거
-            }
-        } 
+      }
     }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential) {
+            dockerImage.push("$BUILD_NUMBER")
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $imagename:$BUILD_NUMBER"
+      }
+    }
+  }
 }
-
