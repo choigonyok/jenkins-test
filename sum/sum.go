@@ -10,11 +10,6 @@ func Multi(a, b int) int {
 	return c
 }
 
-func Sub(a, b int) int {
-	c := a * b
-	return c
-}
-
 // go plugin 설치
 // Tool에서 golang 버전 적용
 //sudo snap install openjdk
