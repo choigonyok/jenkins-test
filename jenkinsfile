@@ -1,6 +1,7 @@
 node {
     stage('Clone repository') {
         checkout scm
+        echo '${BUILD_NUMBER}'
     }
 
     stage('Build image') {
