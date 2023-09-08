@@ -7,9 +7,11 @@ pipeline {
 
     agent any 
     stages { 
-        stage('Clone repository') {
-            checkout scm
-            sh "echo '${BUILD_NUMBER}'"
+        stage('checkout') {
+            steps { 
+                checkout scm
+                sh "echo '${BUILD_NUMBER}'"
+            }
         }
 
         stage('Build image') { 
