@@ -18,23 +18,34 @@ func Sub(a, b int) int {
 // go plugin 설치
 // Tool에서 golang 버전 적용
 //sudo snap install openjdk
+
 // pipeline {
 //     agent any
 //     tools {
 //         go 'golang'
 //     }
+
 //     stages {
 //         stage('Checkout') {
 //             steps {
 //                 git branch: 'main',
-//                     credentialsId: '4467cd03-f3e0-4d7f-b6b4-4ecfe57568fa',
+//                     credentialsId: 'test',
 //                     url: 'https://github.com/choigonyok/jenkins-test.git'
 //             }
 //         }
+
 //         stage('Test') {
 //             steps {
+//                 script {
 //                     echo 'Running test'
-//                     sh 'cd sum && go test -cover .'
+//                     COVERAGE = sh (script: "go test -cover ./sum | tr -d '%' | awk -F ' ' '{print \$5}'", returnStdout: true).trim()
+//                     if (COVERAGE >= "80") {
+//                         echo "PASSED COVERAGE TEST: ${COVERAGE}%"
+//                     } else {
+//                         echo "YOUR TEST CODE COVERAGE IS ${COVERAGE}%"
+//                         error('IT HAS TO LARGE THAN 80%, SO FAILED')
+//                     }
+//                 }
 //             }
 //         }
 //     }
