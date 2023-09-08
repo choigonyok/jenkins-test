@@ -18,7 +18,6 @@ func Sub(a, b int) int {
 // go plugin 설치
 // Tool에서 golang 버전 적용
 //sudo snap install openjdk
-
 // pipeline {
 //     agent any
 //     tools {
