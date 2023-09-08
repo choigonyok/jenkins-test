@@ -14,8 +14,10 @@ pipeline {
         }
 
         stage('Build image') { 
-            steps {
+            steps { 
+                script { 
                     app = docker.build("$repository:$BUILD_NUMBER")
+                }
             } 
         }
 
