@@ -23,7 +23,6 @@ func Sub(a, b int) int {
 //     tools {
 //         go 'golang'
 //     }
-
 //     stages {
 //         stage('Checkout') {
 //             steps {
