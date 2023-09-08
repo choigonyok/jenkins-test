@@ -10,14 +10,13 @@ pipeline {
         stage('checkout') {
             steps { 
                 checkout scm
-                sh "echo '${BUILD_NUMBER}'"
             }
         }
 
         stage('Build image') { 
             steps { 
                 script { 
-                    dockerImage = docker.build repository + ":$BUILD_NUMBER" 
+                    sh "docker build -t $repository:$BUILD_NUMBER ." // war 파일을 현재 위치로 복사 
                 }
             } 
         }
