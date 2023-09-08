@@ -14,10 +14,8 @@ pipeline {
         }
 
         stage('Build image') { 
-            steps { 
-                script { 
-                    sh "docker build -t $repository:$BUILD_NUMBER ." // war 파일을 현재 위치로 복사 
-                }
+            steps {
+                    app = docker.build("$repository:$BUILD_NUMBER")
             } 
         }
 
